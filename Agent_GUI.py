@@ -51,7 +51,7 @@ def Recognize_Digit():
     y1 = y + widget.winfo_height()
     print(x, y, x1, y1)
 
-    # get image and save
+  
     ImageGrab.grab().crop((x, y, x1, y1)).save(image_folder + filename)
 
     image = cv2.imread(image_folder + filename, cv2.IMREAD_COLOR)
@@ -62,16 +62,15 @@ def Recognize_Digit():
 
     for cnt in contours:
         x, y, w, h = cv2.boundingRect(cnt)
-        # make a rectangle box around each curve
+       
         cv2.rectangle(image, (x, y), (x + w, y + h), (255, 0, 0), 1)
 
-        # Cropping out the digit from the image corresponding to the current contours in the for loop
+       
         digit = th[y:y + h, x:x + w]
 
-        # Resizing that digit to (18, 18)
         resized_digit = cv2.resize(digit, (18, 18))
 
-        # Padding the digit with 5 pixels of black color (zeros) in each side to finally produce the image of (28, 28)
+       
         padded_digit = np.pad(resized_digit, ((5, 5), (5, 5)), "constant", constant_values=0)
 
         digit = padded_digit.reshape(1, 28, 28, 1)
